@@ -1,5 +1,6 @@
 <?php
 require 'connect_db.php';
+$page = $_GET['page'] ?? 'list';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -7,7 +8,18 @@ require 'connect_db.php';
 <head>
     <meta charset="utf-8">
     <title>Quản lý sách</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <?php
+    if (in_array($page, ['list', 'add', 'edit', 'delete'])) {
+        echo '<link rel="stylesheet" href="css/books.css">';
+    }
+    if (in_array($page, ['login', 'register', 'logout'])) {
+        echo '<link rel="stylesheet" href="css/users.css">';
+    }
+    if (in_array($page, ['borrow', 'borrows', 'return'])) {
+        echo '<link rel="stylesheet" href="css/borrows.css">';
+    }
+    ?>
 </head>
 
 <body>

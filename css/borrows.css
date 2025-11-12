@@ -1,0 +1,37 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background: #f8f9fa;
+}
+
+.table tr:hover {
+    background: #f1f1f1;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+a.button {
+    display: inline-block;
+    background: #2b7ae4;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+a.button:hover {
+    background: #1d5ec2;
+}
