@@ -1,12 +1,15 @@
-<div class="nav">
-    <a href="?page=list">Sách</a>
-    <?php if (isset($_SESSION['user'])): ?>
-        <span>Xin chào, <?= htmlspecialchars($_SESSION['user']['name']) ?></span>
-        <a href="?page=borrows">Phiếu mượn</a>
-        <?php if (is_admin()): ?><a href="?page=add">Thêm sách</a><?php endif; ?>
-        <a href="?page=logout">Đăng xuất</a>
-    <?php else: ?>
-        <a href="?page=login">Đăng nhập</a>
-        <a href="?page=register">Đăng ký</a>
-    <?php endif; ?>
-</div>
+<header class="main-header">
+    <div class="header-left">
+        <h1>BookManager</h1>
+    </div>
+
+    <div class="header-right">
+        <?php if (!isset($_SESSION['user'])): ?>
+            <a href="?page=login" class="header-btn">Đăng nhập</a>
+            <a href="?page=register" class="header-btn">Đăng ký</a>
+        <?php else: ?>
+            <span class="welcome">Xin chào, <?= htmlspecialchars($_SESSION['user']['name']) ?></span>
+            <a href="?page=logout" class="header-btn logout-btn">Đăng xuất</a>
+        <?php endif; ?>
+    </div>
+</header>

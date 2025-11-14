@@ -33,6 +33,7 @@ class UserController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
             $pass = $_POST['password'];
+            var_dump(['email_received'=> $email, 'raw_password'=> $pass]);
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email=?");
             $stmt->execute([$email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,6 +50,54 @@ class UserController
     {
         session_destroy();
         header('Location:?page=login');
+    }
+
+
+    public static function addFavorite($pdo)
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location:?page=login');
+            exit;
+        }
+        $book_id = (int) ($_GET['id'] ?? 0);
+        $user_id = $_SESSION['user']['id'];
+        try {
+            $pdo->prepare("INSERT IGNORE INTO favorites(user_id, book_id) VALUES(?,?)")
+                ->execute([$user_id, $book_id]);
+            $_SESSION['message'] = "Đã thêm vào yêu thích.";
+        } catch (Exception $e) {
+            $_SESSION['message'] = "Lỗi thêm yêu thích.";
+        }
+        header('Location:?page=list');
+        exit;
+    }
+
+    public static function removeFavorite($pdo)
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location:?page=login');
+            exit;
+        }
+        $book_id = (int) ($_GET['id'] ?? 0);
+        $user_id = $_SESSION['user']['id'];
+        $pdo->prepare("DELETE FROM favorites WHERE user_id=? AND book_id=?")
+            ->execute([$user_id, $book_id]);
+        $_SESSION['message'] = "Đã xóa khỏi yêu thích.";
+        header('Location:?page=favorites');
+        exit;
+    }
+
+    public static function favoritesList($pdo)
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location:?page=login');
+            exit;
+        }
+        $user_id = $_SESSION['user']['id'];
+        $stmt = $pdo->prepare("SELECT b.* FROM books b JOIN favorites f ON b.id=f.book_id WHERE f.user_id=?");
+        $stmt->execute([$user_id]);
+        $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        include 'views/books/favorites.php';
     }
 }
 ?>

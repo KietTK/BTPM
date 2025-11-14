@@ -10,13 +10,13 @@ $page = $_GET['page'] ?? 'list';
     <title>Quản lý sách</title>
     <link rel="stylesheet" href="css/main.css">
     <?php
-    if (in_array($page, ['list', 'add', 'edit', 'delete'])) {
+    if (in_array($page, ['list', 'add', 'edit', 'topbooks', 'topusers', 'favorites', 'book'])) {
         echo '<link rel="stylesheet" href="css/books.css">';
     }
-    if (in_array($page, ['login', 'register', 'logout'])) {
+    if (in_array($page, ['login', 'register'])) {
         echo '<link rel="stylesheet" href="css/users.css">';
     }
-    if (in_array($page, ['borrow', 'borrows', 'return'])) {
+    if (in_array($page, ['borrow', 'borrows', 'history', 'penalties'])) {
         echo '<link rel="stylesheet" href="css/borrows.css">';
     }
     ?>
@@ -25,15 +25,19 @@ $page = $_GET['page'] ?? 'list';
 <body>
     <?php include 'views/header.php'; ?>
 
-    <div class="container">
-        <?php
-        if (isset($_SESSION['message'])) {
-            $msg = $_SESSION['message'];
-            unset($_SESSION['message']);
-            include 'views/message.php';
-        }
-        include 'routes.php';
-        ?>
+    <div class="layout">
+        <?php include 'views/sidebar.php'; ?>
+
+        <div class="container">
+            <?php
+            if (isset($_SESSION['message'])) {
+                $msg = $_SESSION['message'];
+                unset($_SESSION['message']);
+                include 'views/message.php';
+            }
+            require 'routes.php';
+            ?>
+        </div>
     </div>
 
     <?php include 'views/footer.php'; ?>

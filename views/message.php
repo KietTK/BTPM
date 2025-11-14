@@ -1,1 +1,1 @@
-<div class="message"><?=$msg?></div>
+<div class="message"><?= $msg ?></div>

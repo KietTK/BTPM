@@ -1,37 +1,83 @@
 .table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.table th,
-.table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
 }
 
 .table th {
     background: #f8f9fa;
+    color: #343a40;
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.5px;
 }
 
-.table tr:hover {
-    background: #f1f1f1;
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #eef2f7;
+    color: #555;
+    vertical-align: middle;
 }
 
-h2 {
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table .btn {
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 0.85em;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge.status-returned {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.status-badge.status-pending {
+    background-color: #fffbeb;
+    color: #b45309;
+}
+
+.status-badge.status-overdue {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.borrow-confirm-container {
+    max-width: 550px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 24px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.borrow-confirm-container h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
     color: #333;
-    margin-bottom: 10px;
+    font-weight: 700;
 }
 
-a.button {
-    display: inline-block;
-    background: #2b7ae4;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-decoration: none;
-}
-
-a.button:hover {
-    background: #1d5ec2;
+.borrow-confirm-container p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 24px;
+    line-height: 1.5;
 }

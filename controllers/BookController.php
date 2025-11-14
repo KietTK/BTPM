@@ -3,7 +3,16 @@ class BookController
 {
     public static function index($pdo)
     {
-        $stmt = $pdo->query("SELECT * FROM books ORDER BY id DESC");
+        $keyword = $_GET['keyword'] ?? '';
+
+        if ($keyword !== '') {
+            $stmt = $pdo->prepare("SELECT * FROM books 
+            WHERE title LIKE ? OR author LIKE ? ORDER BY id DESC");
+            $stmt->execute(["%$keyword%", "%$keyword%"]);
+        } else {
+            $stmt = $pdo->query("SELECT * FROM books ORDER BY id DESC");
+        }
+
         $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
         include 'views/books/list.php';
     }
@@ -89,9 +98,72 @@ class BookController
             return null;
 
         $newName = uniqid('book_', true) . '.' . $ext;
-        $target = 'images/' . $newName;
+        $target = 'uploads/' . $newName;
         move_uploaded_file($file['tmp_name'], $target);
         return $target;
+    }
+
+    public static function topBooks($pdo)
+    {
+        $sql = "SELECT bo.title, COUNT(b.id) AS total
+            FROM borrows b
+            JOIN books bo ON b.book_id = bo.id
+            GROUP BY b.book_id
+            ORDER BY total DESC";
+
+        $stmt = $pdo->query($sql);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        include 'views/books/top.php';
+    }
+
+    public static function rate($pdo)
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location:?page=login');
+            exit;
+        }
+        $user_id = $_SESSION['user']['id'];
+        $book_id = (int) ($_POST['book_id'] ?? 0);
+        $rating = (int) ($_POST['rating'] ?? 0);
+        $comment = $_POST['comment'] ?? '';
+
+        if ($rating < 1 || $rating > 5) {
+            $_SESSION['message'] = "Đánh giá phải 1-5.";
+            header("Location:?page=list");
+            exit;
+        }
+
+        $stmt = $pdo->prepare("SELECT id FROM ratings WHERE user_id=? AND book_id=?");
+        $stmt->execute([$user_id, $book_id]);
+        if ($stmt->fetch()) {
+            $pdo->prepare("UPDATE ratings SET rating=?, comment=?, created_at=NOW() WHERE user_id=? AND book_id=?")
+                ->execute([$rating, $comment, $user_id, $book_id]);
+        } else {
+            $pdo->prepare("INSERT INTO ratings(user_id, book_id, rating, comment) VALUES(?,?,?,?)")
+                ->execute([$user_id, $book_id, $rating, $comment]);
+        }
+        $_SESSION['message'] = "Cảm ơn đánh giá của bạn.";
+        header("Location:?page=book&id=$book_id");
+    }
+
+    public static function detail($pdo)
+    {
+        $id = (int) ($_GET['id'] ?? 0);
+        $stmt = $pdo->prepare("SELECT * FROM books WHERE id=?");
+        $stmt->execute([$id]);
+        $book = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$book) {
+            echo "<h3>Không tìm thấy sách</h3>";
+            return;
+        }
+        $avg = $pdo->prepare("SELECT AVG(rating) avg, COUNT(*) cnt FROM ratings WHERE book_id=?");
+        $avg->execute([$id]);
+        $stat = $avg->fetch(PDO::FETCH_ASSOC);
+        $rec = $pdo->prepare("SELECT * FROM books WHERE genre=? AND id<>? LIMIT 5");
+        $rec->execute([$book['genre'], $id]);
+        $recs = $rec->fetchAll(PDO::FETCH_ASSOC);
+        include 'views/books/detail.php';
     }
 }
 ?>

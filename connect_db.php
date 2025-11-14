@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db   = 'book_manager';
+$db   = 'book_manager_2';
 $user = 'root';
 $pass = '';
 

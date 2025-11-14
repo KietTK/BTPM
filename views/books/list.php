@@ -1,34 +1,37 @@
 <h2>Danh sách sách</h2>
-<table class="table">
-    <tr>
-        <th>Tiêu đề</th>
-        <th>Tác giả</th>
-        <th>Thể loại</th>
-        <th>Trang</th>
-        <th>Năm</th>
-        <th></th>
-    </tr>
+
+<form method="get" class="search-form">
+    <input type="hidden" name="page" value="list">
+    <input type="text" name="keyword" placeholder="Tìm theo tên/tác giả..."
+        value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+    <button class="btn" type="submit">Tìm</button>
+</form>
+
+<div class="book-grid">
     <?php foreach ($books as $b): ?>
-        <tr>
-            <td>
-                <?php if (!empty($b['image'])): ?>
-                    <img src="<?= $b['image'] ?>" alt="Cover" style="width:60px;height:80px;object-fit:cover;">
-                <?php else: ?>
-                    <span style="color:#999;">Không có ảnh</span>
-                <?php endif; ?>
-            </td>
-            <td><?= $b['title'] ?></td>
-            <td><?= $b['author'] ?></td>
-            <td><?= $b['genre'] ?></td>
-            <td><?= $b['pages'] ?></td>
-            <td><?= $b['year'] ?></td>
-            <td>
-                <?php if (is_admin()): ?>
-                    <a href="?page=edit&id=<?= $b['id'] ?>">Sửa</a> |
-                    <a href="?page=delete&id=<?= $b['id'] ?>" onclick="return confirm('Xóa?')">Xóa</a> |
-                <?php endif; ?>
-                <a href="?page=borrow&id=<?= $b['id'] ?>">Mượn</a>
-            </td>
-        </tr>
+        <div class="book-card">
+            <img src="<?= $b['image'] ?: 'uploads/default.jpg' ?>" class="book-thumb" alt="cover">
+
+            <div class="book-info">
+                <div class="book-title"><?= htmlspecialchars($b['title']) ?></div>
+                <div class="book-meta">Tác giả: <b><?= htmlspecialchars($b['author']) ?></b></div>
+                <div class="book-meta">Thể loại: <?= htmlspecialchars($b['genre']) ?></div>
+                <div class="book-meta">Stock: <?= intval($b['stock']) ?></div>
+
+                <div class="book-actions">
+                    <a class="btn" href="?page=book&id=<?= $b['id'] ?>">Xem</a>
+                    <?php if (is_admin()): ?>
+                        <a class="btn" href="?page=edit&id=<?= $b['id'] ?>">Sửa</a>
+                        <a class="btn btn-danger" href="?page=delete&id=<?= $b['id'] ?>"
+                            onclick="return confirm('Xóa?')">Xóa</a>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a class="btn" href="?page=borrow&id=<?= $b['id'] ?>">Mượn</a>
+                        <a class="btn" href="?page=fav_add&id=<?= $b['id'] ?>">Yêu thích</a>
+                        <a class="btn" href="?page=reserve&id=<?= $b['id'] ?>">Đặt trước</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     <?php endforeach; ?>
-</table>
+</div>
