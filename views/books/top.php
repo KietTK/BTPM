@@ -6,7 +6,6 @@
     </tr>
     <?php foreach ($rows as $r): ?>
         <tr>
-            <td></td>
             <td><?= htmlspecialchars($r['title']) ?></td>
             <td><?= $r['total'] ?></td>
         </tr>

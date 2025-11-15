@@ -1,7 +1,7 @@
 .table {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
+    background: #fafafa;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -9,8 +9,8 @@
 }
 
 .table th {
-    background: #f8f9fa;
-    color: #343a40;
+    background: #e5e7eb;
+    color: #1e293b;
     padding: 14px 12px;
     text-align: left;
     font-weight: 600;
