@@ -57,7 +57,7 @@ class BookController
             if ($newImg)
                 $imgPath = $newImg;
 
-            $sql = "UPDATE books SET title=?, image=?, author=?, genre=?, pages=?, year=? WHERE id=?";
+            $sql = "UPDATE books SET title=?, image=?, author=?, genre=?, pages=?, year=?, stock=? WHERE id=?";
             $pdo->prepare($sql)->execute([
                 $_POST['title'],
                 $imgPath,
@@ -65,6 +65,7 @@ class BookController
                 $_POST['genre'],
                 $_POST['pages'],
                 $_POST['year'],
+                $_POST['stock'],
                 $id
             ]);
 

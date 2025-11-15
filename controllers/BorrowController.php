@@ -220,6 +220,22 @@ class BorrowController
         include 'views/borrows/penalties.php';
     }
 
+    public static function markPaid($pdo)
+    {
+        auth_required();
+        if (!is_admin())
+            die("403");
+
+        $id = intval($_GET['id'] ?? 0);
+
+        $pdo->prepare("UPDATE penalties SET paid=1 WHERE id=?")
+            ->execute([$id]);
+
+        $_SESSION['message'] = "Đã đánh dấu thanh toán.";
+        header('Location:?page=penalties');
+        exit;
+    }
+
     public static function topUser($pdo)
     {
         auth_required();

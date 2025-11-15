@@ -69,6 +69,9 @@ switch ($page) {
     case 'penalties':
         BorrowController::penalties($pdo);
         break;
+    case 'mark_paid':
+        BorrowController::markPaid($pdo);
+        break;
     case 'renew':
         BorrowController::renew($pdo);
         break;
