@@ -16,7 +16,7 @@ $page = $_GET['page'] ?? 'list';
     if (in_array($page, ['login', 'register'])) {
         echo '<link rel="stylesheet" href="css/users.css">';
     }
-    if (in_array($page, ['borrow', 'borrows', 'history', 'penalties'])) {
+    if (in_array($page, ['borrow', 'borrows', 'history', 'penalties', 'reservation', 'top_user'])) {
         echo '<link rel="stylesheet" href="css/borrows.css">';
     }
     ?>

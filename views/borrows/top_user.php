@@ -7,7 +7,7 @@
         <th>Số lượt mượn</th>
     </tr>
 
-    <?php foreach ($rows as $r): ?>
+    <?php foreach ($data as $r): ?>
         <tr>
             <td><?= $r['name'] ?></td>
             <td><?= $r['email'] ?></td>
