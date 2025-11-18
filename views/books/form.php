@@ -55,4 +55,4 @@
 
 </form>
 
-<a href="?page=list" class="btn btn-secondary" style="margin-top: 16px;">Quay lại</a>
+<a href="?page=list" class="btn btn-secondary" style="margin-top: 16px;">< Quay lại</a>

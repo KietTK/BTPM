@@ -35,28 +35,6 @@
     font-size: 0.9em;
 }
 
-.status-badge {
-    padding: 5px 12px;
-    border-radius: 99px;
-    font-size: 0.85em;
-    font-weight: 600;
-    text-transform: capitalize;
-}
-
-.status-badge.status-returned {
-    background-color: #dcfce7;
-    color: #16a34a;
-}
-
-.status-badge.status-pending {
-    background-color: #fffbeb;
-    color: #b45309;
-}
-
-.status-badge.status-overdue {
-    background-color: #fee2e2;
-    color: #b91c1c;
-}
 
 .borrow-confirm-container {
     max-width: 550px;

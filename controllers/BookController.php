@@ -24,14 +24,15 @@ class BookController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $imgPath = self::handleUpload();
 
-            $stmt = $pdo->prepare("INSERT INTO books (title,image,author,genre,pages,year) VALUES (?,?,?,?,?,?)");
+            $stmt = $pdo->prepare("INSERT INTO books (title,image,author,genre,pages,year,stock) VALUES (?,?,?,?,?,?,?)");
             $stmt->execute([
                 $_POST['title'],
                 $imgPath,
                 $_POST['author'],
                 $_POST['genre'],
                 $_POST['pages'],
-                $_POST['year']
+                $_POST['year'],
+                $_POST['stock'],
             ]);
 
             $_SESSION['message'] = "Đã thêm sách.";
@@ -154,6 +155,15 @@ class BookController
         $stmt = $pdo->prepare("SELECT * FROM books WHERE id=?");
         $stmt->execute([$id]);
         $book = $stmt->fetch(PDO::FETCH_ASSOC);
+        $cmt = $pdo->prepare("
+            SELECT r.rating, r.comment, r.created_at, u.name 
+            FROM ratings r
+            JOIN users u ON r.user_id = u.id
+            WHERE r.book_id = ?
+            ORDER BY r.created_at DESC
+        ");
+        $cmt->execute([$id]);
+        $reviews = $cmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$book) {
             echo "<h3>Không tìm thấy sách</h3>";
             return;

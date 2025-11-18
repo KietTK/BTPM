@@ -33,7 +33,6 @@ class UserController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
             $pass = $_POST['password'];
-            var_dump(['email_received'=> $email, 'raw_password'=> $pass]);
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email=?");
             $stmt->execute([$email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);

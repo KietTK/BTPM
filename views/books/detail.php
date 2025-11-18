@@ -57,6 +57,33 @@
 
     <hr class="section-divider">
 
+    <div class="user-reviews-section">
+        <h3>Đánh giá từ người dùng khác</h3>
+
+        <?php if (empty($reviews)): ?>
+            <p>Chưa có đánh giá nào.</p>
+        <?php else: ?>
+            <?php foreach ($reviews as $rv): ?>
+                <div class="review-item">
+                    <p><b><?= htmlspecialchars($rv['name']) ?></b> –
+                        <?= $rv['rating'] ?>/5
+                    </p>
+
+                    <?php if (!empty($rv['comment'])): ?>
+                        <p><?= nl2br(htmlspecialchars($rv['comment'])) ?></p>
+                    <?php endif; ?>
+
+                    <span class="review-date">
+                        <?= date("d/m/Y H:i", strtotime($rv['created_at'])) ?>
+                    </span>
+                    <hr>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+    <hr class="section-divider">
+
     <div class="suggestions-section">
         <h3>Gợi ý cùng thể loại</h3>
         <div class="suggestions-list">

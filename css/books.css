@@ -275,3 +275,23 @@ form button[type="submit"]:hover {
     background: #f0f2f5;
     color: #0056b3;
 }
+
+.user-reviews-section {
+    margin-top: 20px;
+}
+
+.review-item {
+    background: #f6f7fb;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.review-item p {
+    margin: 4px 0;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #777;
+}
